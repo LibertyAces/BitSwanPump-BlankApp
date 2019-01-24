@@ -6,6 +6,7 @@ import bspump
 import bspump.file
 import bspump.common
 import bspump.trigger
+from  bspump.abc.processor import Processor
 
 ###
 
@@ -18,12 +19,24 @@ class SamplePipeline(bspump.Pipeline):
 	def __init__(self, app, pipeline_id):
 		super().__init__(app, pipeline_id)
 
+		source_config = {'path': 'sample.csv', 'delimiter': ','}
+		source_trigger = bspump.trigger.RunOnceTrigger(app)
 
 		self.build(
-			bspump.file.FileCSVSource(app, self, config={'path': 'sample.csv', 'delimiter': ','}).on(bspump.trigger.RunOnceTrigger(app)),
-			#bspump.common.PPrintProcessor(app, self),
+			bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
+			AliasEnricher(app, self),
 			bspump.common.PPrintSink(app, self)
 		)
+
+
+
+class AliasEnricher(Processor):
+
+	def process(self, context, event):
+		alias = event ['name'][0] + event['surname']
+		event['alias'] = alias.lower ()
+
+		return event
 
 
 if __name__ == '__main__':
