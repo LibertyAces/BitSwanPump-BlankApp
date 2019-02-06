@@ -5,7 +5,7 @@
  - pip
  - docker
 
-Note that if you have multiple python installations, it is recommanded to use ```pip3 install``` instead.
+Note that if you have multiple python installations, it is recommended to use ```pip3 install``` instead.
 
 
 
@@ -26,7 +26,7 @@ Move to the directory (it is `bspump-example` in our case):
 ```bash
 $ cd bspump-example
 ```
-Than you can build your docker image:
+Then you can build your docker image:
 ```bash
 $ docker build -t bspump-example .
 ```
@@ -36,11 +36,10 @@ $ docker run bspump-example
 ```
 
 
-
 ## Additional information
 From here you should have working BSPump application up and running and you may go on and customize it to your needs. 
 
-To see more information about availible sources, sinks and processors go to  https://github.com/TeskaLabs/bspump.
+To see more information about available sources, sinks and processors go to  https://github.com/TeskaLabs/bspump.
 
 
 
