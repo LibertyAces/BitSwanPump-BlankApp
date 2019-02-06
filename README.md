@@ -1,16 +1,51 @@
-# BSPump sample
+# Creating blank BSPump application
 
-### Prerequisites
+## Prerequisites
  - python3
  - pip
+ - docker
 
 Note that if you have multiple python installations, it is recommanded to use ```pip3 install``` instead.
 
-### Installation
+
+
+## Installation
+Install required libraries:
 ```bash
-$ pip install asab bspump
+$ pip install asab bspump 
+```
+Clone git repository to your work directory:
+```bash
+$ git clone https://github.com/TeskaLabs/bspump-example.git
 ```
 
+
+
+## Running via docker
+Move to the directory (it is `bspump-example` in our case):
+```bash
+$ cd bspump-example
+```
+Than you can build your docker image:
+```bash
+$ docker build -t bspump-example .
+```
+Once you have your docker image built, run it in a container:
+```bash
+$ docker run bspump-example
+```
+
+
+
+## Additional information
+From here you should have working BSPump application up and running and you may go on and customize it to your needs. 
+
+To see more information about availible sources, sinks and processors go to  https://github.com/TeskaLabs/bspump.
+
+
+
+
+<!---
 ### Creating pipleine
 Every pipeline is composed of source, sink and optionaly any number of processors.
 See ```bspump-example.py``` for more details on application setup.
@@ -53,21 +88,4 @@ Than you have to add it in to your pipeline between source and sink.
 ```
 
 Of course you can align as many processors as you want in to the pipeline.
-
-
-### Running via docker
-Move to the directory with a ```Dockerfile``` (it is ```bspump-example``` in our case). Than you can build your docker image.
-```bash
-$ docker build -t bspump-example .
-```
-Than you can run it in a container.
-```bash
-$ docker run bspump-example
-```
-
-
-### More Sinks and sources
-Instead of csv source you can connect your pipeline to json file source, or elasticsearch, influxdb, kafka, mysql and many others. Same goes for sinks.
-
-See readme and examples at https://github.com/TeskaLabs/bspump for more details.
-
+--->
