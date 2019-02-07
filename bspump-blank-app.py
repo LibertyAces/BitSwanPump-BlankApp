@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+import sys
+
 import logging
 import asyncio
 import asab
 import bspump
-import bspump.file
+import bspump.socket
 import bspump.common
 import bspump.trigger
 from  bspump.abc.processor import Processor
@@ -14,29 +16,30 @@ L = logging.getLogger(__name__)
 
 ###
 
-class SamplePipeline(bspump.Pipeline):
+class BlankPipeline(bspump.Pipeline):
 
 	def __init__(self, app, pipeline_id):
 		super().__init__(app, pipeline_id)
 
-		source_config = {'path': 'sample.csv', 'delimiter': ','}
-		source_trigger = bspump.trigger.RunOnceTrigger(app)
+		# source_config = {'path': 'sample.csv', 'delimiter': ','}
 
 		self.build(
-			bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
-			AliasEnricher(app, self),
+			bspump.socket.TCPSource (app, self, config={"host":"0.0.0.0", "port": 8888}),
+			ShakespeareanEnricher(app, self),
 			bspump.common.PPrintSink(app, self)
 		)
 
 
 
-class AliasEnricher(Processor):
+class ShakespeareanEnricher(Processor):
 
 	def process(self, context, event):
-		alias = event ['name'][0] + event['surname']
-		event['alias'] = alias.lower ()
 
-		return event
+		msg = event.decode("utf-8").replace ('\n','')
+		s_msg = 'To {0}, or not to {0}?'.format (msg)
+		return s_msg
+
+
 
 
 if __name__ == '__main__':
@@ -45,7 +48,7 @@ if __name__ == '__main__':
 	svc = app.get_service("bspump.PumpService")
 
 	# Construct and register Pipeline
-	pl = SamplePipeline(app, 'SamplePipeline')
+	pl = BlankPipeline(app, 'blank_pipeline')
 	svc.add_pipeline(pl)
 
 	app.run()
