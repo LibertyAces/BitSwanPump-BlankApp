@@ -9,7 +9,7 @@ Note that if you have multiple python installations, it is recommended to use ``
 
 
 
-## Installation
+## Install
 Install required libraries:
 ```bash
 $ pip install asab bspump 
@@ -21,7 +21,7 @@ $ git clone https://github.com/TeskaLabs/bspump-blank-app.git
 
 
 
-## Running via docker
+## Run in docker
 Move to the directory (it is `bspump-blank-app` in our case):
 ```bash
 $ cd bspump-blank-app
@@ -32,61 +32,32 @@ $ docker build -t bspump-your-app .
 ```
 Once you have your docker image built, run it in a container:
 ```bash
-$ docker run bspump-your-app
+$ sudo docker run -p 8888:8888 bspump-sh-app
 ```
-
-
-## Customization
-From here you should have working BSPump application up and running. You may go on and customize it to your needs. 
-
-
-## Additional information
-To see more information about available sources, sinks and processors go to  https://github.com/TeskaLabs/bspump.
+*We use port 8888 for TCP Sink in sample pipeline.*
 
 
 
 
-<!---
-### Creating a pipeline
-Every pipeline is composed of a source, sink and optionally any number of processors.
-See ```bspump-blank-app.py``` for more details on application setup.
+## Test it works
+In new terminal use netCat to connect to TCPSink:
+```bash
+nc -v localhost 8888
+```
+Now write any messge, "test" for example. You should see your message enriched in docker container STDOUT.
+
+
+
+## Customize
+From here you should have your BSPump application up and running. You may go on and customize it to your needs. 
+Basic pipline structure is defined in pipeline init:
 ```python
-class SamplePipeline(bspump.Pipeline):
-
-    def __init__(self, app, pipeline_id):
-        super().__init__(app, pipeline_id)
-
-        source_config = {'path': 'sample.csv', 'delimiter': ','}
-        source_trigger = bspump.trigger.RunOnceTrigger(app)
-
-        self.build(
-            bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
-            bspump.common.PPrintSink(app, self)
-        )
-
+    self.build(
+        bspump.socket.TCPSource (app, self, config={"host":"0.0.0.0", "port": 8888}),
+        ShakespeareanEnricher(app, self),
+        bspump.common.PPrintSink(app, self)
+    )
 ```
+You can see the TCPSource at the beginning, followed by any number of processors, ending with sink. To customize the pipline simply replace any part of it by your own alternative.
 
-### Creating custom processor
-You can use existing, or create your own processor.
-```python
-class AliasEnricher(Processor):
-
-    def process(self, context, event):
-        alias = event ['name'][0] + event['surname']
-        event['alias'] = alias.lower ()
-
-        return event
-
-```
-
-Then you have to add it into your pipeline between source and sink.
-```python
-        self.build(
-            bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
-            AliasEnricher(app, self),
-            bspump.common.PPrintSink(app, self)
-        )
-```
-
-Of course, you can align as many processors as you want into the pipeline.
---->
+You can find more information about available sources, sinks and processors at https://github.com/TeskaLabs/bspump.
