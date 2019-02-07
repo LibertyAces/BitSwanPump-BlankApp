@@ -45,22 +45,22 @@ To see more information about available sources, sinks and processors go to  htt
 
 
 <!---
-### Creating pipleine
-Every pipeline is composed of source, sink and optionaly any number of processors.
+### Creating a pipeline
+Every pipeline is composed of a source, sink and optionally any number of processors.
 See ```bspump-example.py``` for more details on application setup.
 ```python
 class SamplePipeline(bspump.Pipeline):
 
-	def __init__(self, app, pipeline_id):
-		super().__init__(app, pipeline_id)
+    def __init__(self, app, pipeline_id):
+        super().__init__(app, pipeline_id)
 
-		source_config = {'path': 'sample.csv', 'delimiter': ','}
-		source_trigger = bspump.trigger.RunOnceTrigger(app)
+        source_config = {'path': 'sample.csv', 'delimiter': ','}
+        source_trigger = bspump.trigger.RunOnceTrigger(app)
 
-		self.build(
-			bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
-			bspump.common.PPrintSink(app, self)
-		)
+        self.build(
+            bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
+            bspump.common.PPrintSink(app, self)
+        )
 
 ```
 
@@ -69,22 +69,22 @@ You can use existing, or create your own processor.
 ```python
 class AliasEnricher(Processor):
 
-	def process(self, context, event):
-		alias = event ['name'][0] + event['surname']
-		event['alias'] = alias.lower ()
+    def process(self, context, event):
+        alias = event ['name'][0] + event['surname']
+        event['alias'] = alias.lower ()
 
-		return event
+        return event
 
 ```
 
-Than you have to add it in to your pipeline between source and sink.
+Then you have to add it into your pipeline between source and sink.
 ```python
-		self.build(
-			bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
-			AliasEnricher(app, self),
-			bspump.common.PPrintSink(app, self)
-		)
+        self.build(
+            bspump.file.FileCSVSource(app, self, config=source_config).on(source_trigger),
+            AliasEnricher(app, self),
+            bspump.common.PPrintSink(app, self)
+        )
 ```
 
-Of course you can align as many processors as you want in to the pipeline.
+Of course, you can align as many processors as you want into the pipeline.
 --->
