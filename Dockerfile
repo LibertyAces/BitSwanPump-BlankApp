@@ -6,11 +6,10 @@ MAINTAINER TeskaLabs Ltd (support@teskalabs.com)
 ENV LANG C.UTF-8
 
 RUN set -ex \
-	mkdir /opt/bspump-example
+	mkdir -p /opt/bspump-blank-app
 
-COPY ./bspump-example.py /opt/bspump-example/bspump-example.py
-COPY ./sample.csv /opt/bspump-example/sample.csv
+COPY ./bspump-blank-app.py /opt/bspump-blank-app/bspump-blank-app.py
 
 
-WORKDIR /opt/bspump-example
-CMD ["python3", "/opt/bspump-example/bspump-example.py", "-w"]
+WORKDIR /opt/bspump-blank-app
+CMD ["python3", "-u", "/opt/bspump-blank-app/bspump-blank-app.py", "-w"]
