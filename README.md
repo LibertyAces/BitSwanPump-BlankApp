@@ -16,29 +16,31 @@ $ pip install asab bspump
 ```
 Clone git repository to your work directory:
 ```bash
-$ git clone https://github.com/TeskaLabs/bspump-example.git
+$ git clone https://github.com/TeskaLabs/bspump-blank-app.git
 ```
 
 
 
 ## Running via docker
-Move to the directory (it is `bspump-example` in our case):
+Move to the directory (it is `bspump-blank-app` in our case):
 ```bash
-$ cd bspump-example
+$ cd bspump-blank-app
 ```
 Then you can build your docker image:
 ```bash
-$ docker build -t bspump-example .
+$ docker build -t bspump-your-app .
 ```
 Once you have your docker image built, run it in a container:
 ```bash
-$ docker run bspump-example
+$ docker run bspump-your-app
 ```
 
 
-## Additional information
-From here you should have working BSPump application up and running and you may go on and customize it to your needs. 
+## Customization
+From here you should have working BSPump application up and running. You may go on and customize it to your needs. 
 
+
+## Additional information
 To see more information about available sources, sinks and processors go to  https://github.com/TeskaLabs/bspump.
 
 
@@ -47,7 +49,7 @@ To see more information about available sources, sinks and processors go to  htt
 <!---
 ### Creating a pipeline
 Every pipeline is composed of a source, sink and optionally any number of processors.
-See ```bspump-example.py``` for more details on application setup.
+See ```bspump-blank-app.py``` for more details on application setup.
 ```python
 class SamplePipeline(bspump.Pipeline):
 
