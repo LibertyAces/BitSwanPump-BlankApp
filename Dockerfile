@@ -12,4 +12,4 @@ COPY ./bspump-blank-app.py /opt/bspump-blank-app/bspump-blank-app.py
 
 
 WORKDIR /opt/bspump-blank-app
-CMD ["python3", "-u", "/opt/bspump-blank-app/bspump-blank-app.py", "-w"]
+CMD ["python3", "/opt/bspump-blank-app/bspump-blank-app.py", "-w"]
