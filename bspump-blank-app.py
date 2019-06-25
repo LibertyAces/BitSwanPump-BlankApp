@@ -30,6 +30,12 @@ if __name__ == '__main__':
 
 	svc = app.get_service("bspump.PumpService")
 
+	# Create and register all connections here
+
+	# Create and register all lookups here
+
+	# Create and register all pipelines here
+
 	pl = MyPipeline(app, 'MyPipeline')
 	svc.add_pipeline(pl)
 
