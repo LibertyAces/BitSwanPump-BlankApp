@@ -1,1 +1,1 @@
-from .app import BlankAppApplication
+from .app import BlankAppApplication  # noqa
