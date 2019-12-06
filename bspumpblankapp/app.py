@@ -1,18 +1,22 @@
+import asab.web
+import asab.web.rest
 import bspump
-
-from .pipeline import TCPPipeline
 
 
 class BlankAppApplication(bspump.BSPumpApplication):
 
-	async def main(self):
-		svc = self.get_service("bspump.PumpService")
+	def __init__(self):
+		super().__init__()
 
-		# Create and register all connections here
+		# Load the webservice module
+		from asab.web import Module
+		self.add_module(Module)
 
-		# Create and register all lookups here
+		# Locate webservice
+		self.WebService = self.get_service("asab.WebService")
+		self.WebContainer = asab.web.WebContainer(self.WebService, "web")
+		self.WebContainer.WebApp.middlewares.append(asab.web.rest.JsonExceptionMiddleware)
 
-		# Create and register all pipelines here
-
-		pl = TCPPipeline(self, 'TCPPipeline')
-		svc.add_pipeline(pl)
+		# Load blank module
+		from .module import BlankModule
+		self.add_module(BlankModule)
