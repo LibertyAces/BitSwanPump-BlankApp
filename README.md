@@ -29,9 +29,9 @@ $ docker build -t bspump-blank-app .
 ```
 Once you have your docker image built, run it in a container:
 ```bash
-$ sudo docker run -p 8888:8888 bspump-blank-app
+$ sudo docker run -p 8888:8888 -p 8080:8080 bspump-blank-app
 ```
-*We use port 8888 for TCP Sink in sample pipeline.*
+*We use port 8888 for TCP Sink and 8080 for web handler in sample pipeline.*
 
 
 ## Test it works
@@ -39,15 +39,19 @@ In new terminal use netCat to connect to TCPSink:
 ```bash
 nc -v localhost 8888
 ```
-Now write any messge, "test" for example. You should see your message enriched in docker container `stderr`.
+Now write any message, "test" for example. You should see your message enriched in docker container `stderr`.
 
+Or you can try it out using http endpoint. Just call
+```bash
+http://localhost:8080/blank?message=test
+```
 
 ## Customize
 From here you should have your BSPump application up and running. You may go on and customize it to your needs. 
 Basic pipline structure is defined in pipeline init:
 ```python
     self.build(
-        bspump.socket.TCPSource(app, self, config={"host":"0.0.0.0", "port": 8888}),
+        bspump.socket.TCPSource(app, self, config={"host": "0.0.0.0", "port": 8888}),
         ShakespeareanEnricher(app, self),
         bspump.common.PPrintSink(app, self, stream=sys.stderr)
     )
