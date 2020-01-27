@@ -8,6 +8,7 @@ ENV LANG C.UTF-8
 RUN set -ex \
 	mkdir -p /opt/bspump-blank-app
 
+COPY ./bspumpblankapp /opt/bspump-blank-app/bspumpblankapp
 COPY ./bspump-blank-app.py /opt/bspump-blank-app/bspump-blank-app.py
 
 
